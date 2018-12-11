@@ -9,7 +9,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/designweight" />
             <option value="$PROJECT_DIR$/javaTest" />
+            <option value="$PROJECT_DIR$/rxjavautils" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

@@ -4,7 +4,9 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/UsbHelper.iml" filepath="$PROJECT_DIR$/UsbHelper.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/designweight/designweight.iml" filepath="$PROJECT_DIR$/designweight/designweight.iml" />
       <module fileurl="file://$PROJECT_DIR$/javaTest/javaTest.iml" filepath="$PROJECT_DIR$/javaTest/javaTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rxjavautils/rxjavautils.iml" filepath="$PROJECT_DIR$/rxjavautils/rxjavautils.iml" />
     </modules>
   </component>
 </project>

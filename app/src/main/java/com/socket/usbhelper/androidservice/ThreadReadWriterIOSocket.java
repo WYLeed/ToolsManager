@@ -4,12 +4,12 @@ import android.content.Context;
 import android.util.Log;
 
 
-import com.socket.usbhelper.FileHelper;
+import com.jeremyliao.livedatabus.LiveDataBus;
+import com.socket.usbhelper.usb.LiveDataManager;
 import com.socket.usbhelper.MyUtil;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -20,15 +20,11 @@ public class ThreadReadWriterIOSocket implements Runnable {
     private Context context;
 
     ThreadReadWriterIOSocket(Context context, Socket client) {
-
         this.client = client;
         this.context = context;
     }
-
     @Override
     public void run() {
-        Log.d("TAG", Thread.currentThread().getName() + "---->"
-                + "a client has connected to server!");
         BufferedOutputStream out;
         BufferedInputStream in;
         try {
@@ -43,87 +39,34 @@ public class ThreadReadWriterIOSocket implements Runnable {
                     if (!client.isConnected()) {
                         break;
                     }
-
                     /* 接收PC发来的数据 */
-                    Log.e("TAG", Thread.currentThread().getName()
-                            + "---->" + "will read......");
+                    Log.e("TAG", Thread.currentThread().getName() + "---->" + "will read......");
                     /* 读操作命令 */
                     currCMD = readCMDFromSocket(in);
-                    Log.e("TAG", Thread.currentThread().getName()
-                            + "---->" + "**currCMD ==== " + currCMD);
-
-                    /* 根据命令分别处理数据 */
-                    if (currCMD.equals("1")) {
-                        out.write("OK".getBytes());
-                        out.flush();
-                    } else if (currCMD.equals("2")) {
-                        out.write("OK".getBytes());
-                        out.flush();
-                    } else if (currCMD.equals("3")) {
-                        out.write("OK".getBytes());
-                        out.flush();
-                    } else if (currCMD.equals("4")) {
-                        /* 准备接收文件数据 */
-                        try {
-                            out.write("service receive OK".getBytes());
-                            out.flush();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-                        /* 接收文件数据，4字节文件长度，4字节文件格式，其后是文件数据 */
-                        byte[] filelength = new byte[4];
-                        byte[] fileformat = new byte[4];
-                        byte[] filebytes = null;
-
-                        /* 从socket流中读取完整文件数据 */
-                        filebytes = receiveFileFromSocket(in, out, filelength,
-                                fileformat);
-
-                        // Log.e(Service139.TAG, "receive data =" + new
-                        // String(filebytes));
-                        try {
-                            /* 生成文件 */
-                            File file = FileHelper.newFile("R0013340.JPG");
-                            FileHelper.writeFile(file, filebytes, 0,
-                                    filebytes.length);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    } else if (currCMD.equals("exit")) {
-
-                    }
+                    Log.e("TAG", Thread.currentThread().getName() + "---->" + "**currCMD ==== " + currCMD);
+                    LiveDataBus.get().with(LiveDataManager.USB_SOCKET_MESSAGE).postValue(currCMD);
                 } catch (Exception e) {
-                    // try {
-                    // out.write("error".getBytes("utf-8"));
-                    // out.flush();
-                    // } catch (IOException e1) {
-                    // e1.printStackTrace();
-                    // }
-                    Log.e("TAG", Thread.currentThread().getName()
-                            + "---->" + "read write error111111");
+                    Log.e("TAG", Thread.currentThread().getName() + "---->" + "read write error111111");
                 }
             }
             out.close();
             in.close();
         } catch (Exception e) {
-            Log.e("TAG", Thread.currentThread().getName()
-                    + "---->" + "read write error222222");
+            Log.e("TAG", Thread.currentThread().getName() + "---->" + "read write error222222");
             e.printStackTrace();
         } finally {
             try {
                 if (client != null) {
-                    Log.e("TAG", Thread.currentThread().getName()
-                            + "---->" + "client.close()");
+                    Log.e("TAG", Thread.currentThread().getName() + "---->" + "client.close()");
                     client.close();
                 }
             } catch (IOException e) {
-                Log.e("TAG", Thread.currentThread().getName()
-                        + "---->" + "read write error333333");
+                Log.e("TAG", Thread.currentThread().getName() + "---->" + "read write error333333");
                 e.printStackTrace();
             }
         }
     }
+
 
     /**
      * 功能：从socket流中读取完整文件数据
@@ -173,8 +116,7 @@ public class ThreadReadWriterIOSocket implements Runnable {
             msg = new String(tempbuffer, 0, numReadedBytes, "utf-8");
             tempbuffer = null;
         } catch (Exception e) {
-            Log.e("TAG", Thread.currentThread().getName()
-                    + "---->" + "readFromSocket error");
+            Log.e("TAG", Thread.currentThread().getName() + "---->" + "readFromSocket error");
             e.printStackTrace();
         }
         // Log.e(Service139.TAG, "msg=" + msg);

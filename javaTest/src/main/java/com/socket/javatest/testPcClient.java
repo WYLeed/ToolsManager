@@ -48,85 +48,85 @@ public class testPcClient {
             while (flag) {
                 System.out.print("请输入1~6的数字,退出输入exit：");
                 String strWord = br.readLine();// 从控制台输入1~6
-                if (strWord.equals("1")) {
-                    out.write("1".getBytes());
+//                if (strWord.equals("1")) {
+                    out.write(strWord.getBytes());
+
                     out.flush();
+
                     System.out.println("1 finish sending the data");
                     String strFormsocket = readFromSocket(in);
-                    System.out.println("the data sent by server is:/r/n"
-                            + strFormsocket);
-                    System.out
-                            .println("=============================================");
-                } else if (strWord.equals("2")) {
-                    out.write("2".getBytes());
-                    out.flush();
-                    System.out.println("2 finish sending the data");
-                    String strFormsocket = readFromSocket(in);
-                    System.out.println("the data sent by server is:/r/n"
-                            + strFormsocket);
-                    System.out
-                            .println("=============================================");
-                } else if (strWord.equals("3")) {
-                    out.write("3".getBytes());
-                    out.flush();
-                    System.out.println("3 finish sending the data");
-                    String strFormsocket = readFromSocket(in);
-                    System.out.println("the data sent by server is:/r/n"
-                            + strFormsocket);
-                    System.out
-                            .println("=============================================");
-                } else if (strWord.equals("4")) {
-                    /* 发送命令 */
-                    out.write("4".getBytes());
-                    out.flush();
-                    System.out.println("send file finish sending the CMD：");
-                    /* 服务器反馈：准备接收 */
-                    String strFormsocket = readFromSocket(in);
-                    System.out
-                            .println("service ready receice data:UPDATE_CONTACTS:"
-                                    + strFormsocket);
-                    byte[] filebytes = FileHelper.readFile("R0013340.JPG");
-                    System.out.println("file size=" + filebytes.length);
-                    /* 将整数转成4字节byte数组 */
-                    byte[] filelength = new byte[4];
-                    filelength = MyUtil.intToByte(filebytes.length);
-                    /* 将.apk字符串转成4字节byte数组 */
-                    byte[] fileformat = null;
-                    fileformat = ".apk".getBytes();
-                    System.out
-                            .println("fileformat length=" + fileformat.length);
-                    /* 字节流中前4字节为文件长度，4字节文件格式，以后是文件流 */
-                    /* 注意如果write里的byte[]超过socket的缓存，系统自动分包写过去，所以对方要循环写完 */
-                    out.write(filelength);
-                    out.flush();
-                    String strok1 = readFromSocket(in);
-                    System.out.println("service receive filelength :" + strok1);
-                    // out.write(fileformat);
-                    // out.flush();
-                    // String strok2 = readFromSocket(in);
-                    // System.out.println("service receive fileformat :" +
-                    // strok2);
-                    System.out.println("write data to android");
-                    out.write(filebytes);
-                    out.flush();
-                    System.out.println("*********");
-
-                    /* 服务器反馈：接收成功 */
-                    String strread = readFromSocket(in);
-                    System.out.println(" send data success:" + strread);
-                    System.out
-                            .println("=============================================");
-                } else if (strWord.equalsIgnoreCase("EXIT")) {
-                    out.write("EXIT".getBytes());
-                    out.flush();
-                    System.out.println("EXIT finish sending the data");
-                    String strFormsocket = readFromSocket(in);
-                    System.out.println("the data sent by server is:/r/n"
-                            + strFormsocket);
-                    flag = false;
-                    System.out
-                            .println("=============================================");
-                }
+                    System.out.println("the data sent by server is:/r/n" + strFormsocket);
+                    System.out.println("=============================================");
+//                } else if (strWord.equals("2")) {
+//                    out.write("2".getBytes());
+//                    out.flush();
+//                    System.out.println("2 finish sending the data");
+//                    String strFormsocket = readFromSocket(in);
+//                    System.out.println("the data sent by server is:/r/n"
+//                            + strFormsocket);
+//                    System.out
+//                            .println("=============================================");
+//                } else if (strWord.equals("3")) {
+//                    out.write("3".getBytes());
+//                    out.flush();
+//                    System.out.println("3 finish sending the data");
+//                    String strFormsocket = readFromSocket(in);
+//                    System.out.println("the data sent by server is:/r/n"
+//                            + strFormsocket);
+//                    System.out
+//                            .println("=============================================");
+//                } else if (strWord.equals("4")) {
+//                    /* 发送命令 */
+//                    out.write("4".getBytes());
+//                    out.flush();
+//                    System.out.println("send file finish sending the CMD：");
+//                    /* 服务器反馈：准备接收 */
+//                    String strFormsocket = readFromSocket(in);
+//                    System.out
+//                            .println("service ready receice data:UPDATE_CONTACTS:"
+//                                    + strFormsocket);
+//                    byte[] filebytes = FileHelper.readFile("R0013340.JPG");
+//                    System.out.println("file size=" + filebytes.length);
+//                    /* 将整数转成4字节byte数组 */
+//                    byte[] filelength = new byte[4];
+//                    filelength = MyUtil.intToByte(filebytes.length);
+//                    /* 将.apk字符串转成4字节byte数组 */
+//                    byte[] fileformat = null;
+//                    fileformat = ".apk".getBytes();
+//                    System.out
+//                            .println("fileformat length=" + fileformat.length);
+//                    /* 字节流中前4字节为文件长度，4字节文件格式，以后是文件流 */
+//                    /* 注意如果write里的byte[]超过socket的缓存，系统自动分包写过去，所以对方要循环写完 */
+//                    out.write(filelength);
+//                    out.flush();
+//                    String strok1 = readFromSocket(in);
+//                    System.out.println("service receive filelength :" + strok1);
+//                    // out.write(fileformat);
+//                    // out.flush();
+//                    // String strok2 = readFromSocket(in);
+//                    // System.out.println("service receive fileformat :" +
+//                    // strok2);
+//                    System.out.println("write data to android");
+//                    out.write(filebytes);
+//                    out.flush();
+//                    System.out.println("*********");
+//
+//                    /* 服务器反馈：接收成功 */
+//                    String strread = readFromSocket(in);
+//                    System.out.println(" send data success:" + strread);
+//                    System.out
+//                            .println("=============================================");
+//                } else if (strWord.equalsIgnoreCase("EXIT")) {
+//                    out.write("EXIT".getBytes());
+//                    out.flush();
+//                    System.out.println("EXIT finish sending the data");
+//                    String strFormsocket = readFromSocket(in);
+//                    System.out.println("the data sent by server is:/r/n"
+//                            + strFormsocket);
+//                    flag = false;
+//                    System.out
+//                            .println("=============================================");
+//                }
             }
 
         } catch (UnknownHostException e1) {
